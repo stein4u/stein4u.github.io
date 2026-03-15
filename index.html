@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stein Park — Staff System Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a192f;
+      --light-navy: #112240;
+      --lightest-navy: #233554;
+      --slate: #8892b0;
+      --light-slate: #a8b2d1;
+      --lightest-slate: #ccd6f6;
+      --white: #e6f1ff;
+      --green: #64ffda;
+      --green-tint: rgba(100, 255, 218, 0.1);
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--navy);
+      color: var(--light-slate);
+      font-size: 18px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 10px;
+      background: var(--green);
+      color: var(--navy);
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      font-weight: 600;
+      z-index: 100;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 10px;
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      padding: 6rem 0 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .sidebar::after {
+      content: '';
+      display: block;
+      width: 1px;
+      flex: 1;
+      margin-top: 1.5rem;
+      background: var(--lightest-navy);
+    }
+
+    .sidebar a {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: 0.15em;
+      font-size: 11px;
+      padding: 0.6rem 0;
+      color: var(--light-slate);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .sidebar a:hover {
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .sidebar .email-link {
+      margin-top: 1rem;
+    }
+
+    .main-wrap {
+      flex: 1;
+      margin-left: 40px;
+      padding: 0 10vw 8rem 10vw;
+      max-width: 1000px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 10rem 0 8rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero .greeting {
+      color: var(--green);
+      font-size: clamp(14px, 2vw, 16px);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 64px);
+      font-weight: 600;
+      color: var(--lightest-slate);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .hero .tagline {
+      font-size: clamp(20px, 3vw, 28px);
+      color: var(--slate);
+      margin: 0 0 1.5rem;
+    }
+
+    .hero .desc {
+      max-width: 540px;
+      color: var(--slate);
+      font-size: 17px;
+      margin: 0 0 2.5rem;
+    }
+
+    .hero .cta {
+      display: inline-block;
+      color: var(--green);
+      background: transparent;
+      border: 1px solid var(--green);
+      padding: 0.75rem 1.5rem;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .hero .cta:hover {
+      background: var(--green-tint);
+      text-decoration: none;
+    }
+
+    /* Section */
+    section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--lightest-navy);
+    }
+
+    section h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: clamp(24px, 4vw, 28px);
+      font-weight: 600;
+      color: var(--lightest-slate);
+      margin: 0 0 2.5rem;
+    }
+
+    section h2::after {
+      content: '';
+      flex: 1;
+      max-width: 200px;
+      height: 1px;
+      background: var(--lightest-navy);
+    }
+
+    /* About */
+    .about p {
+      margin: 0 0 1rem;
+      color: var(--slate);
+    }
+
+    .about p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Experience - numbered list like Brittany's */
+    .experience-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .experience-list li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .experience-list li::before {
+      content: attr(data-num);
+      position: absolute;
+      left: 0;
+      font-weight: 600;
+      color: var(--green);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .job-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-title {
+      font-weight: 600;
+      color: var(--lightest-slate);
+    }
+
+    .job-meta {
+      color: var(--slate);
+      font-size: 14px;
+    }
+
+    .job-desc {
+      color: var(--slate);
+      font-size: 15px;
+      margin: 0 0 0.75rem;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tech-list li {
+      margin: 0;
+      padding: 0.2rem 0.5rem;
+      font-size: 12px;
+      color: var(--light-slate);
+      background: var(--light-navy);
+      border-radius: 4px;
+      padding-left: 0.5rem;
+    }
+
+    .tech-list li::before {
+      content: none;
+    }
+
+    /* Awards & Education */
+    .awards-edu h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--lightest-slate);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .awards-edu h3:first-child {
+      margin-top: 0;
+    }
+
+    .awards-edu ul {
+      margin: 0 0 1rem;
+      padding-left: 1.25rem;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .awards-edu p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    /* Publications */
+    .publications p {
+      color: var(--slate);
+      margin: 0 0 0.75rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0 4rem;
+      border-top: 1px solid var(--lightest-navy);
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--slate);
+    }
+
+    footer a {
+      color: var(--green);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        padding: 2rem 1.5rem;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      .sidebar::after {
+        display: none;
+      }
+
+      .sidebar a {
+        writing-mode: horizontal-tb;
+        padding: 0;
+      }
+
+      .main-wrap {
+        margin-left: 0;
+        padding: 0 1.5rem 4rem;
+      }
+
+      .hero {
+        padding: 4rem 0 5rem;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to Content</a>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="Navigation">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#awards">Awards</a>
+      <a href="#publications">Publications</a>
+      <a href="mailto:csteinpark@gmail.com" class="email-link" aria-label="Email">csteinpark@gmail.com</a>
+    </aside>
+
+    <div class="main-wrap">
+      <main id="main">
+        <header class="hero">
+          <p class="greeting">Hi, my name is</p>
+          <h1>Stein (Hyungseok) Park.</h1>
+          <p class="tagline">Staff System Software Engineer.</p>
+          <p class="desc">
+            I build and lead embedded software &amp; storage solutions — from FPGA/silicon validation to FTL design and NAND flash — for MP3, mobile, and consumer devices. Analytical problem solver with 15+ years across the full product lifecycle.
+          </p>
+          <a href="mailto:csteinpark@gmail.com" class="cta">Get In Touch</a>
+        </header>
+
+        <section id="about" class="about">
+          <h2>About</h2>
+          <p>
+            I'm a hands-on embedded software engineer and manager with over 15 years of experience planning, engineering, and managing projects for MP3, PDA, phone, and mobile devices. I enjoy working at the intersection of silicon, firmware, and storage — where robust architecture meets real-world mass production.
+          </p>
+          <p>
+            I'm known as an analytical, creative problem solver with extensive experience designing and sizing solutions for process improvement and core software productivity. I've led engineering teams and been a sojourning employee for Apple projects (Shuffle, iPod nano/classic/touch, iPhone), with deep expertise in FTL, NAND flash, and storage interfaces (MMC, HS-MMC, SD, SDIO, CEATA).
+          </p>
+        </section>
+
+        <section id="experience">
+          <h2>Experience</h2>
+          <ol class="experience-list">
+            <li data-num="1.">
+              <div class="job-header">
+                <span class="job-title">Staff System Software Engineer · Senior Engineer Manager</span>
+                <span class="job-meta">2006 — Present</span>
+              </div>
+              <p class="job-meta">Samsung Semiconductor Inc. (System LSI)</p>
+              <p class="job-desc">
+                Managing on-site engineers for Apple projects; resident in San Jose (2008–2011). Mobile strategist for enterprise architecture, FPGA/silicon validation and ATE/ASB support, disaster-recovery storage solutions. Led secure boot implementation, UTE system test environment design, and FTL high-level design (Multicube, Whimory, XSR, compact FTL, STAFF). Owner of STAFF algorithm (journal and patent). NAND flash and FTL: PPN and Toggle NAND specs, multi-channel/multi-way support, wear leveling, power-off recovery.
+              </p>
+              <ul class="tech-list">
+                <li>FPGA / Silicon Validation</li>
+                <li>FTL (STAFF, Whimory, cFTL, XSR)</li>
+                <li>NAND Flash</li>
+                <li>MMC / HS-MMC / SD / SDIO</li>
+                <li>Secure Boot</li>
+                <li>ATE / ASB</li>
+              </ul>
+            </li>
+            <li data-num="2.">
+              <div class="job-header">
+                <span class="job-title">Staff System Software Engineer</span>
+                <span class="job-meta">2000 — 2005</span>
+              </div>
+              <p class="job-meta">Samsung Software Center</p>
+              <p class="job-desc">
+                Enterprise and mobile software in C/C++. YP-T9 MP3 (TFS4 lite, audio playback, block devices); MMC/HS-MMC/SecureMMC (DBSR FTL, MLC NAND); handset platform (RTOS porting, NOR/NAND storage, TFS3/TFS4, FAT); USP for OneNAND; HAUZEN air-condition MICOM programming.
+              </p>
+              <ul class="tech-list">
+                <li>C / C++</li>
+                <li>RTOS</li>
+                <li>TFS3 / TFS4</li>
+                <li>OneNAND</li>
+              </ul>
+            </li>
+            <li data-num="3.">
+              <div class="job-header">
+                <span class="job-title">Senior Software Engineer</span>
+                <span class="job-meta">1998 — 1999</span>
+              </div>
+              <p class="job-meta">Epson Korea</p>
+              <p class="job-desc">
+                ESC/P emulator for printers and scanners, Windows 98/NT printer drivers, TWAIN driver for Perfection scanners. Lead localization on the Corporate Engineering team.
+              </p>
+              <ul class="tech-list">
+                <li>ESC/P</li>
+                <li>Windows Drivers</li>
+                <li>TWAIN</li>
+              </ul>
+            </li>
+            <li data-num="4.">
+              <div class="job-header">
+                <span class="job-title">Software Engineer</span>
+                <span class="job-meta">1996 — 1997</span>
+              </div>
+              <p class="job-meta">Fuji Xerox</p>
+              <p class="job-desc">
+                PCL 5e emulator and Windows 95/NT PCL printer drivers for Alpha-1663 and Alpha-861 laser printers. EPP/ECP driver development.
+              </p>
+              <ul class="tech-list">
+                <li>PCL 5e</li>
+                <li>Windows Drivers</li>
+                <li>EPP / ECP</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section id="awards" class="awards-edu">
+          <h2>Awards &amp; Education</h2>
+          <h3>Education</h3>
+          <p>Bachelor of Computer Engineering, Pusan University of Foreign Studies (PUFS), South Korea — Korea Telecom 4-year scholarship.</p>
+          <h3>Awards</h3>
+          <ul>
+            <li>2002 Outstanding Award — Device driver for coprocessor of Samsung PDA</li>
+            <li>2003 Excellent Award — High quality SW development</li>
+            <li>2005 Mocha Best Award — Samsung Handset Platform</li>
+            <li>2011 Appreciation Award — Continuous growth of business over $4B sales</li>
+          </ul>
+        </section>
+
+        <section id="publications" class="publications">
+          <h2>Publications</h2>
+          <p>STAFF (State Transition Applied Fast Flash) — ARCS 2004.</p>
+          <p>STAFF Revision (A flash driver algorithm minimizing block erasure) — ScienceDirect Journal of Systems Architecture, 2007.</p>
+          <p>Supervisor of LSTAFF (System Software for Large Block Flash Memory) — Lecture Notes in Computer Science 3398, Springer-Verlag, 2004.</p>
+        </section>
+
+        <footer>
+          <p>Built with HTML &amp; CSS. Inspired by <a href="https://brittanychiang.com/" target="_blank" rel="noopener noreferrer">brittanychiang.com</a>.</p>
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
