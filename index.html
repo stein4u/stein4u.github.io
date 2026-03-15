@@ -255,6 +255,22 @@
       margin: 0 0 0.75rem;
     }
 
+    .job-bullets {
+      list-style: disc;
+      padding-left: 1.25rem;
+      margin: 0 0 0.75rem;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .job-bullets li {
+      margin-bottom: 0.25rem;
+    }
+
+    .job-bullets li::before {
+      content: none;
+    }
+
     .tech-list {
       display: flex;
       flex-wrap: wrap;
@@ -401,16 +417,29 @@
                 <span class="job-meta">2006 — Present</span>
               </div>
               <p class="job-meta">Samsung Semiconductor Inc. (System LSI)</p>
+              <p class="job-meta">임베디드 소프트웨어 · 파이썬 (2012.1~현재)</p>
               <p class="job-desc">
                 Managing on-site engineers for Apple projects; resident in San Jose (2008–2011). Mobile strategist for enterprise architecture, FPGA/silicon validation and ATE/ASB support, disaster-recovery storage solutions. Led secure boot implementation, UTE system test environment design, and FTL high-level design (Multicube, Whimory, XSR, compact FTL, STAFF). Owner of STAFF algorithm (journal and patent). NAND flash and FTL: PPN and Toggle NAND specs, multi-channel/multi-way support, wear leveling, power-off recovery.
               </p>
+              <p class="job-desc"><strong>AP Silicon Verification &amp; Validation:</strong></p>
+              <ul class="job-bullets">
+                <li>Characterization</li>
+                <li>Test Vector evaluation</li>
+                <li>DVFS table management</li>
+                <li>EDS, ATE &amp; ASB Data Analysis</li>
+                <li>ML expert</li>
+                <li>Major projects with Apple, Meta and Google</li>
+              </ul>
               <ul class="tech-list">
+                <li>Python</li>
                 <li>FPGA / Silicon Validation</li>
                 <li>FTL (STAFF, Whimory, cFTL, XSR)</li>
                 <li>NAND Flash</li>
                 <li>MMC / HS-MMC / SD / SDIO</li>
                 <li>Secure Boot</li>
                 <li>ATE / ASB</li>
+                <li>DVFS</li>
+                <li>ML</li>
               </ul>
             </li>
             <li data-num="2.">
