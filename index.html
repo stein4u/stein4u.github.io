@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Stein Park — Staff System Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,7 @@
 
     html {
       scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -37,6 +38,7 @@
       font-size: 18px;
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     a {
@@ -119,6 +121,7 @@
       margin-left: 40px;
       padding: 0 10vw 8rem 10vw;
       max-width: 1000px;
+      min-width: 0;
     }
 
     /* Hero */
@@ -157,6 +160,7 @@
       color: var(--slate);
       font-size: 17px;
       margin: 0 0 2.5rem;
+      word-wrap: break-word;
     }
 
     .hero .cta {
@@ -242,6 +246,7 @@
     .job-title {
       font-weight: 600;
       color: var(--lightest-slate);
+      word-wrap: break-word;
     }
 
     .job-meta {
@@ -342,15 +347,38 @@
       color: var(--green);
     }
 
+    /* Tablet: reduce side padding */
+    @media (max-width: 900px) {
+      .main-wrap {
+        padding: 0 5vw 6rem 5vw;
+      }
+
+      section {
+        padding: 3.5rem 0;
+      }
+    }
+
+    /* Mobile: horizontal nav, single column */
     @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+
       .sidebar {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
         width: 100%;
         height: auto;
-        position: relative;
         flex-direction: row;
-        padding: 2rem 1.5rem;
+        flex-wrap: wrap;
+        padding: 1rem 1rem 1rem;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 0.5rem 0.75rem;
+        background: rgba(10, 25, 47, 0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--lightest-navy);
       }
 
       .sidebar::after {
@@ -359,17 +387,197 @@
 
       .sidebar a {
         writing-mode: horizontal-tb;
-        padding: 0;
+        padding: 0.5rem 0.6rem;
+        font-size: 13px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sidebar .email-link {
+        margin-top: 0;
+        font-size: 12px;
+        word-break: break-all;
       }
 
       .main-wrap {
         margin-left: 0;
-        padding: 0 1.5rem 4rem;
+        padding: 0 1.25rem 4rem;
+        width: 100%;
       }
 
       .hero {
-        padding: 4rem 0 5rem;
+        padding: 3rem 0 4rem;
         min-height: auto;
+      }
+
+      .hero .greeting {
+        font-size: 14px;
+      }
+
+      .hero h1 {
+        font-size: clamp(28px, 10vw, 42px);
+      }
+
+      .hero .tagline {
+        font-size: clamp(18px, 4.5vw, 22px);
+      }
+
+      .hero .desc {
+        font-size: 15px;
+        margin-bottom: 2rem;
+      }
+
+      .hero .cta {
+        padding: 0.85rem 1.25rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      section {
+        padding: 2.5rem 0;
+      }
+
+      section h2 {
+        font-size: 22px;
+        margin-bottom: 1.5rem;
+      }
+
+      section h2::after {
+        max-width: 80px;
+      }
+
+      .experience-list li {
+        padding-left: 1.75rem;
+        margin-bottom: 2rem;
+      }
+
+      .job-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+
+      .job-title {
+        font-size: 15px;
+        line-height: 1.4;
+      }
+
+      .job-meta {
+        font-size: 13px;
+      }
+
+      .job-desc {
+        font-size: 14px;
+      }
+
+      .job-bullets {
+        font-size: 14px;
+        padding-left: 1.1rem;
+      }
+
+      .tech-list li {
+        font-size: 11px;
+        padding: 0.25rem 0.45rem;
+      }
+
+      .awards-edu h3 {
+        font-size: 15px;
+      }
+
+      .awards-edu ul,
+      .awards-edu p {
+        font-size: 14px;
+      }
+
+      .publications p {
+        font-size: 14px;
+      }
+
+      footer {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      footer p {
+        font-size: 11px;
+      }
+    }
+
+    /* Small mobile: tighter layout */
+    @media (max-width: 480px) {
+      body {
+        font-size: 16px;
+      }
+
+      .sidebar {
+        padding: 0.75rem 0.75rem;
+        gap: 0.4rem 0.5rem;
+      }
+
+      .sidebar a {
+        font-size: 12px;
+        padding: 0.4rem 0.5rem;
+      }
+
+      .main-wrap {
+        padding: 0 1rem 3rem;
+      }
+
+      .hero {
+        padding: 2rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+
+      .hero .tagline {
+        font-size: 17px;
+      }
+
+      .hero .desc {
+        font-size: 14px;
+      }
+
+      section {
+        padding: 2rem 0;
+      }
+
+      section h2 {
+        font-size: 20px;
+      }
+
+      .experience-list li {
+        padding-left: 1.5rem;
+        margin-bottom: 1.75rem;
+      }
+
+      .job-title {
+        font-size: 14px;
+      }
+    }
+
+    /* Safe area for notched devices */
+    @supports (padding: max(0px)) {
+      .sidebar {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+      }
+
+      @media (max-width: 768px) {
+        .main-wrap {
+          padding-left: max(1.25rem, env(safe-area-inset-left));
+          padding-right: max(1.25rem, env(safe-area-inset-right));
+        }
+      }
+
+      @media (max-width: 480px) {
+        .main-wrap {
+          padding-left: max(1rem, env(safe-area-inset-left));
+          padding-right: max(1rem, env(safe-area-inset-right));
+        }
       }
     }
   </style>
